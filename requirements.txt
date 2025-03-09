@@ -1,0 +1,33 @@
+blinker @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_11lor_igbs/croot/blinker_1737449046432/work
+certifi @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_53iribkvo4/croot/certifi_1738623743875/work/certifi
+charset-normalizer==3.4.1
+click @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/click_1728586651337/work
+filelock @ file:///home/conda/feedstock_root/build_artifacts/filelock_1737517818712/work
+Flask @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_fabivvom5o/croot/flask_1737454311468/work
+fsspec @ file:///home/conda/feedstock_root/build_artifacts/fsspec_1738501244951/work
+gmpy2 @ file:///Users/runner/miniforge3/conda-bld/gmpy2_1733462578956/work
+huggingface-hub==0.29.2
+idna==3.10
+itsdangerous @ file:///Users/builder/cbouss/buildout/croot/itsdangerous_1732923588034/work
+Jinja2 @ file:///home/conda/feedstock_root/build_artifacts/jinja2_1741263328855/work
+MarkupSafe @ file:///Users/runner/miniforge3/conda-bld/markupsafe_1733219703897/work
+mpmath @ file:///home/conda/feedstock_root/build_artifacts/mpmath_1733302684489/work
+networkx @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_networkx_1731521053/work
+numpy @ file:///Users/runner/miniforge3/conda-bld/numpy_1739425637658/work/dist/numpy-2.2.3-cp313-cp313-macosx_11_0_arm64.whl#sha256=61e0420edc3c5b92a40bc922f27ee88247a6a344748728e059344fe483bcf221
+optree @ file:///Users/runner/miniforge3/conda-bld/optree_1740912216871/work
+packaging==24.2
+pybind11 @ file:///D:/bld/pybind11-split_1730237329882/work
+pybind11_global @ file:///home/conda/feedstock_root/build_artifacts/pybind11-split_1730237328107/work
+PyYAML==6.0.2
+regex==2024.11.6
+requests==2.32.3
+safetensors @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_40p0nh5amn/croot/safetensors_1741361303980/work
+setuptools==75.8.2
+sympy @ file:///home/conda/feedstock_root/build_artifacts/sympy_1736248176451/work
+tokenizers==0.21.0
+torch @ file:///Users/runner/miniforge3/conda-bld/libtorch_1739474932605/work
+tqdm==4.67.1
+transformers==4.49.0
+typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1733188668063/work
+urllib3==2.3.0
+Werkzeug @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_87am5fxnsf/croot/werkzeug_1737448721856/work
