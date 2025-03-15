@@ -1,32 +1,27 @@
 from flask import Flask, request, jsonify
 from transformers import pipeline
 
+# Define constants for the server address and port
+SERVER_ADDRESS = "127.0.0.1"
+PORT = 5000
+
 app = Flask(__name__)
 
+# Load the sentiment analysis model
 model = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
 
 @app.route("/predict", methods=["POST"])
 def predict():
     data = request.json
-    # Below is the example structure of the expected input data
-    # {
-    #     "titles": [
-    #         "Tesla stocks surged after good earnings report",
-    #         "Apple announces new product lineup for 2025",
-    #         "Amazon expands into new markets in Asia"
-    #     ]
-    # }
-
     titles = data.get("titles", [])
 
     # Type check: Ensure 'titles' field exists and it is a list
     if not isinstance(titles, list):
         return jsonify({"error": "'titles' must be a list of strings"}), 400
     
-
-    # Resulting variables below
-    positive = 0
-    negative = 0
+    # Initialize counters for positive and negative sentiment
+    positive_count = 0
+    negative_count = 0
     total = 0
     results = []
 
@@ -53,7 +48,6 @@ def predict():
         "results": results,
     })
 
-
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    print(f"Starting Flask server at {SERVER_ADDRESS}:{PORT}...")
+    app.run(host=SERVER_ADDRESS, port=PORT, debug=False)
