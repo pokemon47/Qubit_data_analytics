@@ -68,7 +68,7 @@ class TestFlaskAPI(unittest.TestCase):
         """
         Test that the API returns an error if titles are not provided as a list.
         """
-        data = {"titles": "Tesla stocks surged after good earnings report"}  # Not a list
+        data = {"titles": "Tesla stocks surged after good earnings report"}
         response = requests.post(self.api_url, json=data)
         self.assertEqual(response.status_code, 400)
         
