@@ -1,14 +1,18 @@
+import os
 from flask import Flask, request, jsonify
 from transformers import pipeline
 
-# Define constants for the server address and port
-SERVER_ADDRESS = "127.0.0.1"
-PORT = 5000
+SERVER_ADDRESS = os.getenv("FLASK_RUN_HOST", "127.0.0.1")
+PORT = int(os.getenv("FLASK_RUN_PORT", 5000))  # Default to 5000 if not set
 
 app = Flask(__name__)
 
 # Load the sentiment analysis model
 model = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
+
+@app.route("/", methods=["GET"])
+def status():
+    return jsonify({"status": "Server is running", "port": PORT}), 200
 
 @app.route("/predict", methods=["POST"])
 def predict():
