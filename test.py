@@ -1,8 +1,9 @@
 import unittest
 import requests
 
+
 class TestFlaskAPI(unittest.TestCase):
-    
+
     # Assuming your Flask API is running locally on port 5000
     api_url = "http://127.0.0.1:5001/predict"
 
@@ -19,11 +20,12 @@ class TestFlaskAPI(unittest.TestCase):
         }
         response = requests.post(self.api_url, json=data)
         self.assertEqual(response.status_code, 200)
-        
+
         result = response.json()
         self.assertEqual(result["total"], 3)
-        self.assertGreater(result["total_positive"], result["total_negative"], "positive sentiments must be greater than negative sentiments")
-        
+        self.assertGreater(result["total_positive"], result["total_negative"],
+                           "positive sentiments must be greater than negative sentiments")
+
         # print("test_predict_positive_titles passed")
         print(f"-{self._testMethodName} passed")
 
@@ -40,11 +42,12 @@ class TestFlaskAPI(unittest.TestCase):
         }
         response = requests.post(self.api_url, json=data)
         self.assertEqual(response.status_code, 200)
-        
+
         result = response.json()
         # self.assertEqual(result["total"], 3)
-        self.assertGreater(result["total_negative"], result["total_positive"], "negative sentiments must be greater than positive sentiments")
-        
+        self.assertGreater(result["total_negative"], result["total_positive"],
+                           "negative sentiments must be greater than positive sentiments")
+
         # print("test_predict_mixed_titles passed")
         print(f"-{self._testMethodName} passed")
 
@@ -55,12 +58,12 @@ class TestFlaskAPI(unittest.TestCase):
         data = {"titles": []}
         response = requests.post(self.api_url, json=data)
         self.assertEqual(response.status_code, 200)
-        
+
         result = response.json()
         self.assertEqual(result["total"], 0)
         self.assertEqual(result["total_positive"], 0)
         self.assertEqual(result["total_negative"], 0)
-        
+
         # print("test_empty_titles passed")
         print(f"-{self._testMethodName} passed")
 
@@ -71,13 +74,14 @@ class TestFlaskAPI(unittest.TestCase):
         data = {"titles": "Tesla stocks surged after good earnings report"}
         response = requests.post(self.api_url, json=data)
         self.assertEqual(response.status_code, 400)
-        
+
         result = response.json()
         self.assertEqual(result["error"], "'titles' must be a list of strings")
-        
+
         # print("test_invalid_input passed")
         print(f"-{self._testMethodName} passed")
 
 
 if __name__ == "__main__":
-    unittest.TextTestRunner(verbosity=0).run(unittest.TestLoader().loadTestsFromTestCase(TestFlaskAPI))
+    unittest.TextTestRunner(verbosity=0).run(
+        unittest.TestLoader().loadTestsFromTestCase(TestFlaskAPI))
