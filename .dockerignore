@@ -1,0 +1,6 @@
+.git/
+README.md
+data_analytical_2/
+test.py
+*.pyc
+*.pyo
