@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, jsonify
-from transformers import pipeline
+from transformers import pipeline # type: ignore
 
 SERVER_ADDRESS = os.getenv("FLASK_RUN_HOST", "127.0.0.1")
 PORT = int(os.getenv("FLASK_RUN_PORT", 5000))  # Default to 5000 if not set
