@@ -3,21 +3,23 @@ from app import app  # Import the Flask app from app.py
 
 
 class TestFlaskAPI(unittest.TestCase):
-<<<<<<< HEAD
+
+
+<< << << < HEAD
 
     # Assuming your Flask API is running locally on port 5000
     api_url = "http://127.0.0.1:5000/predict"
-=======
-    
+== == == =
+
     def setUp(self):
         self.client = app.test_client()
         self.client.testing = True
-    
+
     def test_server_is_active(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
         print(f"-{self._testMethodName} passed")
->>>>>>> 8ee6e30b71a907ebbe51a25c3a764d040f67fbbe
+>>>>>> > 8ee6e30b71a907ebbe51a25c3a764d040f67fbbe
 
     def test_predict_positive_titles(self):
         data = {
@@ -29,7 +31,7 @@ class TestFlaskAPI(unittest.TestCase):
         }
         response = self.client.post("/predict", json=data)
         self.assertEqual(response.status_code, 200)
-<<<<<<< HEAD
+<< << << < HEAD
 
         result = response.json()
         self.assertEqual(result["total"], 3)
@@ -37,13 +39,14 @@ class TestFlaskAPI(unittest.TestCase):
                            "positive sentiments must be greater than negative sentiments")
 
         # print("test_predict_positive_titles passed")
-=======
-        
+== == == =
+
         result = response.json
         self.assertEqual(result["total"], 3)
-        self.assertGreater(result["total_positive"], result["total_negative"], "positive sentiments must be greater than negative sentiments")
-        
->>>>>>> 8ee6e30b71a907ebbe51a25c3a764d040f67fbbe
+        self.assertGreater(result["total_positive"], result["total_negative"],
+                           "positive sentiments must be greater than negative sentiments")
+
+>>>>>> > 8ee6e30b71a907ebbe51a25c3a764d040f67fbbe
         print(f"-{self._testMethodName} passed")
 
     def test_predict_mixed_titles(self):
