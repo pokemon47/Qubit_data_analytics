@@ -5,7 +5,7 @@ import requests
 class TestFlaskAPI(unittest.TestCase):
 
     # Assuming your Flask API is running locally on port 5000
-    api_url = "http://127.0.0.1:5001/predict"
+    api_url = "http://127.0.0.1:5000/predict"
 
     def test_predict_positive_titles(self):
         """
