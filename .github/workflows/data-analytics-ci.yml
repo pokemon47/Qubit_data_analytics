@@ -34,6 +34,16 @@ jobs:
         set -o pipefail
         python3 -m coverage run -m unittest test.py | tee test_results.txt
         coverage report -m | tee coverage.txt
+    - name: Upload test results as a GitHub artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: test_results_incomplete
+        path: test_results.txt
+    - name: Upload coverage as a GitHub artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage_incomplete
+        path: coverage.txt
 
   linting:
 
@@ -57,6 +67,11 @@ jobs:
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics | tee linting.txt
         flake8 . --count --max-complexity=10 --statistics --ignore=E501 | tee -a linting.txt
+    - name: Upload linting results as a GitHub artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: linting_incomplete
+        path: linting.txt
 
   type-checking:
 
@@ -78,6 +93,11 @@ jobs:
       run: |
         set -o pipefail
         python3 -m mypy . | tee type_checking.txt
+    - name: Upload type checking as a GitHub artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: type_checking_incomplete
+        path: type_checking.txt
 
   generate-pdf-report:
 
@@ -97,6 +117,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install fpdf2
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    - name: Download results from previous jobs
+      uses: actions/download-artifact@v4
     - name: Generate PDF report
       run: |
         python3 generate_pdf_report.py
