@@ -9,7 +9,7 @@ class TestFlaskAPI(unittest.TestCase):
         self.client.testing = True
 
     def test_server_is_active(self):
-        response = self.client.get("/")
+        response = self.client.get("/status")
         self.assertEqual(response.status_code, 200)
         print(f"-{self._testMethodName} passed")
 

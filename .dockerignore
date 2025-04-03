@@ -4,3 +4,4 @@ data_analytical_2/
 test.py
 *.pyc
 *.pyo
+*.tar
