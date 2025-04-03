@@ -12,7 +12,7 @@ model = pipeline("sentiment-analysis",
                  model="distilbert-base-uncased-finetuned-sst-2-english")
 
 
-@app.route("/", methods=["GET"])
+@app.route("/status", methods=["GET"])
 def status():
     return jsonify({"status": "Server is running", "port": PORT}), 200
 
