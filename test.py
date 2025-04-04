@@ -14,12 +14,14 @@ class TestFlaskAPI(unittest.TestCase):
         print(f"-{self._testMethodName} passed")
 
     def test_predict_positive_titles(self):
+        api_key = "VB8YLeRFTLI3Ut9rabitZA"
         data = {
             "titles": [
                 "Tesla stocks surged after good earnings report",
                 "Tesla announces new product lineup for 2025",
                 "Tesla expands into new markets in Asia"
-            ]
+            ],
+            "api_key": api_key
         }
         response = self.client.post("/predict", json=data)
         self.assertEqual(response.status_code, 200)
@@ -40,9 +42,11 @@ class TestFlaskAPI(unittest.TestCase):
                 "Tesla losing market share",
                 "Tesla faces declining sales in Europe",
                 "Tesla expands to new markets in Asia"
-            ]
+            ],
+            "api_key": "VB8YLeRFTLI3Ut9rabitZA"
         }
         response = self.client.post("/predict", json=data)
+        print(response.data)
         self.assertEqual(response.status_code, 200)
 
         result = response.json
@@ -55,7 +59,7 @@ class TestFlaskAPI(unittest.TestCase):
         """
         Test that the API correctly handles an empty list of titles.
         """
-        data = {"titles": []}
+        data = {"titles": [], "api_key": "VB8YLeRFTLI3Ut9rabitZA"}
         response = self.client.post("/predict", json=data)
         self.assertEqual(response.status_code, 200)
 
@@ -70,7 +74,8 @@ class TestFlaskAPI(unittest.TestCase):
         """
         Test that the API returns an error if titles are not provided as a list.
         """
-        data = {"titles": "Tesla stocks surged after good earnings report"}
+        data = {"titles": "Tesla stocks surged after good earnings report",
+                "api_key": "VB8YLeRFTLI3Ut9rabitZA"}
         response = self.client.post("/predict", json=data)
         self.assertEqual(response.status_code, 400)
 
