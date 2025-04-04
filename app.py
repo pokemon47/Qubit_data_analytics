@@ -13,21 +13,24 @@ model = pipeline("sentiment-analysis",
                  model="distilbert-base-uncased-finetuned-sst-2-english")
 
 # Function to authenticate:
+
+
 def auth_api_key(api_key):
     auth_url = 'http://170.64.139.10:8080/validate'
     data = {
         'apiKey': api_key
     }
-    
+
     headers = {
         'Content-Type': 'application/json'
     }
-    
+
     response = requests.post(auth_url, json=data, headers=headers)
     if response.status_code == 200:
         return response.json()
     else:
         return Exception(f"API key validation failed {response.status_code}")
+
 
 @app.route("/status", methods=["GET"])
 def status():
@@ -40,7 +43,7 @@ def predict():
         api_key = request.get_json().get('api_key')
         if not api_key:
             return jsonify({"error": "API key is required"}), 400
-        
+
         data = request.json
         titles = data.get("titles", [])
 
@@ -80,7 +83,6 @@ def predict():
         error_msg = str(e)
         status_code = 401 if "API key validation failed" in error_msg else 403
         return jsonify({"error": error_msg}), status_code
-        
 
 
 if __name__ == "__main__":
