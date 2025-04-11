@@ -56,7 +56,7 @@ try:
         for line in lines:
             pdf.multi_cell(w=0, text=f"{line}", new_x="LMARGIN", new_y="NEXT")
 
-            if "passed" not in line:
+            if "fail" in line.lower():
                 unit_tests_pass = False
 except FileNotFoundError:
     pdf.cell(text="ERROR: Unit test results could not be found",
