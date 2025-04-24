@@ -1,12 +1,22 @@
 import os
 from flask import Flask, request, jsonify
 import requests
+from flask_cors import CORS
 from transformers import pipeline  # type: ignore
 
-SERVER_ADDRESS = os.getenv("FLASK_RUN_HOST", "127.0.0.1")
-PORT = int(os.getenv("FLASK_RUN_PORT", 5000))  # Default to 5000 if not set
+SERVER_ADDRESS = os.getenv("FLASK_RUN_HOST", "0.0.0.0")
+PORT = int(os.getenv("FLASK_RUN_PORT", 8000))
 
 app = Flask(__name__)
+
+# Define allowed origins
+allowed_origins = [
+    "http://localhost:3000",                   # local dev
+    "https://your-frontend.vercel.app"         # TODO WHEN WE DEPLOY, replace with your deployed frontend domain
+]
+
+# Enable CORS for allowed origins only
+CORS(app, origins=allowed_origins)
 
 # Load the sentiment analysis model
 model = pipeline("sentiment-analysis",

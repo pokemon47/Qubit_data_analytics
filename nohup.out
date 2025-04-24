@@ -1,0 +1,6 @@
+nohup: ignoring input
+[2025-04-24 02:30:42 +0000] [11875] [INFO] Starting gunicorn 21.2.0
+[2025-04-24 02:30:42 +0000] [11875] [INFO] Listening at: http://0.0.0.0:8000 (11875)
+[2025-04-24 02:30:42 +0000] [11875] [INFO] Using worker: gthread
+[2025-04-24 02:30:42 +0000] [11876] [INFO] Booting worker with pid: 11876
+Device set to use cpu
