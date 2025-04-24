@@ -2,49 +2,68 @@ name: Deploy to Digital Ocean
 
 on:
   push:
-    branches: [ "main" ]
-  workflow_run:
-    workflows: ["Qubit Data Analytics"]
-    types:
-      - completed
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' }}
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
     
-    - name: Install SSH key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.DROPLET_SSH_KEY }}
-        known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-        
-    - name: Deploy to Digital Ocean
-      env:
-        DEPLOY_HOST: 170.64.163.80
-        DEPLOY_USER: root
+    - name: Setup SSH
       run: |
-        # Copy files to server
-        rsync -avz --exclude '.git*' --exclude 'venv' --exclude '__pycache__' --exclude '.coverage' ./ $DEPLOY_USER@$DEPLOY_HOST:/var/www/flask_app/
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DROPLET_SSH_KEY }}" > ~/.ssh/deploy_key
+        chmod 600 ~/.ssh/deploy_key
+        ssh-keygen -y -f ~/.ssh/deploy_key > ~/.ssh/deploy_key.pub
         
-        # SSH into server and restart services
-        ssh $DEPLOY_USER@$DEPLOY_HOST << 'EOF'
-          # Navigate to app directory
-          cd /var/www/flask_app
-          
-          # Update virtual environment
-          python3 -m venv venv
+        # Remove any existing entry for the droplet
+        ssh-keygen -f ~/.ssh/known_hosts -R "170.64.163.80" || true
+        
+        # Add GitHub's host key
+        echo "github.com,140.82.121.3 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl" > ~/.ssh/known_hosts
+        
+        # Fetch and add the droplet's current host key
+        ssh-keyscan -H "170.64.163.80" >> ~/.ssh/known_hosts
+        
+        chmod 644 ~/.ssh/known_hosts
+    
+    - name: Setup SSH Config
+      run: |
+        cat > ~/.ssh/config << EOL
+        Host github.com
+            HostName github.com
+            User git
+            IdentityFile ~/.ssh/deploy_key
+            StrictHostKeyChecking yes
+        Host 170.64.163.80
+            HostName 170.64.163.80
+            User root
+            IdentityFile ~/.ssh/deploy_key
+            StrictHostKeyChecking yes
+        EOL
+        chmod 600 ~/.ssh/config
+    
+    - name: Debug SSH Setup
+      run: |
+        ls -la ~/.ssh
+        cat ~/.ssh/config
+        cat ~/.ssh/known_hosts
+        ssh-keygen -l -f ~/.ssh/deploy_key
+        ssh -v root@170.64.163.80 echo "SSH connection test"
+    
+    - name: Deploy to Digital Ocean
+      uses: appleboy/ssh-action@master
+      with:
+        host: 170.64.163.80
+        username: root
+        key: ${{ secrets.DROPLET_SSH_KEY }}
+        script: |
+          cd ~/Qubit_data_analytics
+          git fetch origin
+          git reset --hard origin/main
           source venv/bin/activate
           pip install -r requirements.txt
-          
-          # Set proper permissions
-          sudo chown -R www-data:www-data /var/www/flask_app
-          
-          # Restart services
-          sudo systemctl restart flask_app
-          sudo systemctl restart nginx
-EOF 
+          pkill gunicorn || true
+          sleep 2
+          nohup gunicorn --workers 1 --threads 2 --timeout 120 --bind 0.0.0.0:8000 wsgi:app > gunicorn.log 2>&1 & 

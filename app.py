@@ -3,8 +3,8 @@ from flask import Flask, request, jsonify
 import requests
 from transformers import pipeline  # type: ignore
 
-SERVER_ADDRESS = os.getenv("FLASK_RUN_HOST", "127.0.0.1")
-PORT = int(os.getenv("FLASK_RUN_PORT", 5000))  # Default to 5000 if not set
+SERVER_ADDRESS = os.getenv("FLASK_RUN_HOST", "0.0.0.0")
+PORT = int(os.getenv("FLASK_RUN_PORT", 8000))
 
 app = Flask(__name__)
 
