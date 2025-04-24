@@ -90,7 +90,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install mypy types-requests types-fpdf2
+        pip install mypy types-requests types-fpdf2 types-Flask-Cors
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Type checking with mypy
       run: |
