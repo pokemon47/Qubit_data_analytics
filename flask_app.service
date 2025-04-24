@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve Flask Sentiment Analysis API
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/root/Qubit_data_analytics
+Environment="PATH=/root/Qubit_data_analytics/venv/bin"
+ExecStart=/root/Qubit_data_analytics/venv/bin/gunicorn --workers 1 --threads 2 --timeout 120 --bind 0.0.0.0:8000 wsgi:app
+
+[Install]
+WantedBy=multi-user.target 
